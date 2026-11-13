@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ul {
+    background-color: blanchedalmond;
+    list-style-type: none;
+    display: flex;
+    padding: 15px 30px;
+    margin: 0;
+    gap: 30px;
+}
+body {
+    background-color: aquamarine;
+}

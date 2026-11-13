@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игры</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- БУРГЕР-МЕНЮ -->
+    <input type="checkbox" id="burger-toggle" class="burger-toggle">
+    <label for="burger-toggle" class="burger-label">≡ Меню</label>
+<nav class="main-nav">
+    <ul class="nav-list">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="games.html">Игры</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+        <li><a href="admin.html">Админ-панель</a></li>
+        <li><a href="clan.html">Клан</a></li>
+    </ul>
+</nav>
+<h1>Игры</h1>
+<p>Здесь можно указать дюбимые игры, такие как Cyberpunk2077, Hades, Minecraft</p>
+<h1>Наши игры</h1>
+        <!-- Карточка 1 -->
+        <div class="game-card">
+            <img src="images/cyberpunk2077.jpg" alt="Cyberpunk 2077" class="game-image">
+            <h3>Cyberpunk 2077</h3>
+            <p>Ролевой экшен в открытом мире</p>
+            <button class="details-btn">Подробнее</button>
+            <div class="details" style="display: none;">
+                <p>Жанр: RPG</p>
+                <p>Рейтинг: 8.7/10</p>
+                <p>Платформы: PC, PS5, Xbox Series X</p>
+            </div>
+        </div>
+        <!-- Карточка 2 -->
+        <div class="game-card">
+            <img src="images/hades.jpg" alt="Hades" class="game-image">
+            <h3>Hades</h3>
+            <p>Roguelike-экшен в древнегреческом сеттинге</p>
+            <button class="details-btn">Подробнее</button>
+            <div class="details" style="display: none;">
+                <p>Жанр: Roguelike</p>
+                <p>Рейтинг: 9.3/10</p>
+                <p>Платформы: PC, Switch, PS4, Xbox One</p>
+            </div>
+        </div>
+        <!-- Карточка 3 -->
+        <div class="game-card">
+            <img src="images/minecraft.jpg" alt="Minecraft" class="game-image">
+            <h3>Minecraft</h3>
+            <p>Песочница с безграничными возможностями</p>
+            <button class="details-btn">Подробнее</button>
+            <div class="details" style="display: none;">
+                <p>Жанр: Sandbox</p>
+                <p>Рейтинг: 9.0/10</p>
+                <p>Платформы: PC, консоли, мобильные</p>
+            </div>
+        </div>
+
+    <!-- Подключаем JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>

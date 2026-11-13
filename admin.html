@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- БУРГЕР-МЕНЮ -->
+    <input type="checkbox" id="burger-toggle" class="burger-toggle">
+    <label for="burger-toggle" class="burger-label">≡ Меню</label>
+
+    <!-- НАВИГАЦИЯ -->
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="games.html">Игры</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+            <li><a href="admin.html">Админ-панель</a></li>
+            <li><a href="clan.html">Клан</a></li>
+        </ul>
+
+        <!-- Кнопка "Войти" (показывается, если не авторизован) -->
+        <button id="login-btn" class="login-btn">Войти</button>
+
+        <!-- Профиль пользователя (показывается, если авторизован) -->
+        <div id="user-menu" class="user-menu" style="display: none;">
+            <span id="user-display-name" class="user-name">Пользователь</span>
+            <button id="logout-btn" class="logout-btn-small">Выйти</button>
+        </div>
+    </nav>
+
+    <!-- ЗАГОЛОВОК -->
+    <h1 style="text-align: center; margin: 30px 0;">Административная панель</h1>
+
+    <!-- БЛОК ПРОВЕРКИ ДОСТУПА -->
+    <div id="access-denied" style="display: none; text-align: center; padding: 50px;">
+        <h2 style="color: #e74c3c;">Доступ запрещён</h2>
+        <p>У вас нет прав для просмотра этой страницы.</p>
+        <p>Войдите как администратор.</p>
+        <a href="index.html" style="color: #3498db;">Вернуться на главную</a>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ АДМИНКИ -->
+    <div id="admin-content" style="display: none;">
+
+        <!-- СТАТИСТИКА -->
+        <section class="admin-stats">
+            <h2>📊 Статистика</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-games">0</div>
+                    <div class="stat-label">Игр в базе</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-scores">0</div>
+                    <div class="stat-label">Рекордов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-avg">0</div>
+                    <div class="stat-label">Средний рейтинг</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ФОРМА ДОБАВЛЕНИЯ ИГРЫ (перенесена из index.html) -->
+        <section class="add-game-section" style="margin-bottom: 30px;">
+            <h2>➕ Добавить новую игру</h2>
+            <form id="add-game-form">
+                <div class="form-group">
+                    <label for="title">Название игры:</label>
+                    <input type="text" id="title" placeholder="Например: Cyberpunk 2077" required>
+                </div>
+                <div class="form-group">
+                    <label for="genre">Жанр:</label>
+                    <input type="text" id="genre" placeholder="Например: RPG" required>
+                </div>
+                <div class="form-group">
+                    <label for="rating">Рейтинг (0-10):</label>
+                    <input type="number" id="rating" min="0" max="10" step="0.1" placeholder="9.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="imageUrl">Ссылка на картинку:</label>
+                    <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg">
+                </div>
+                <button type="submit" class="submit-btn">Сохранить игру</button>
+            </form>
+        </section>
+
+        <!-- ТАБЛИЦА ИГР -->
+        <section class="admin-table-section">
+            <h2>🎮 Управление играми</h2>
+
+            <div class="admin-actions">
+                <button id="export-csv" class="admin-btn export">📥 Экспорт в CSV</button>
+                <button id="refresh-btn" class="admin-btn refresh">🔄 Обновить</button>
+            </div>
+
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Название</th>
+                            <th>Жанр</th>
+                            <th>Рейтинг</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-games-body">
+                        <tr><td colspan="5" style="text-align: center;">Загрузка...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ПОЛЬЗОВАТЕЛЬ -->
+        <section class="admin-user">
+            <p>Вы вошли как: <strong id="admin-email">—</strong></p>
+            <button id="admin-logout" class="admin-btn logout">Выйти</button>
+        </section>
+
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО АУТЕНТИФИКАЦИИ (для кнопки «Войти») -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-modal-window">
+            <button class="modal-close" id="modal-close">×</button>
+            <h2 class="auth-title">Добро пожаловать!</h2>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Вход</button>
+                <button class="auth-tab" data-tab="register">Регистрация</button>
+            </div>
+
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label for="login-email">Email:</label>
+                    <input type="email" id="login-email" placeholder="example@mail.ru" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль:</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="auth-btn">Войти</button>
+            </form>
+
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-name">Имя:</label>
+                    <input type="text" id="register-name" placeholder="Ваше имя" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email:</label>
+                    <input type="email" id="register-email" placeholder="example@mail.ru" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Пароль (мин. 6 символов):</label>
+                    <input type="password" id="register-password" placeholder="••••••••" minlength="6" required>
+                </div>
+                <button type="submit" class="auth-btn">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FIREBASE -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDxct9YwLCF8XXtLByNVO7z1_irAYKW-cw",                      // ← ТВОЙ
+            authDomain: "mygamesite-af743.firebaseapp.com",
+            projectId: "mygamesite-af743",
+            storageBucket: "mygamesite-af743.firebasestorage.app",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef..."
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        console.log('🔥 Firebase подключен на admin.html');
+
+        window.db = db;
+        window.auth = auth;
+        window.firebaseReady = true;
+    </script>
+
+    <!-- JS АДМИНКИ -->
+    <script src="js/admin.js"></script>
+
+</body>
+</html>

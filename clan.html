@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игровой клан</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- БУРГЕР-МЕНЮ -->
+    <input type="checkbox" id="burger-toggle" class="burger-toggle">
+    <label for="burger-toggle" class="burger-label">≡ Меню</label>
+
+    <!-- НАВИГАЦИЯ (как на других страницах) -->
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="games.html">Игры</a></li>
+            <li><a href="contacts.html">Контакты</a></li>
+            <li><a href="admin.html">Админ-панель</a></li>
+            <li><a href="clan.html">Клан</a></li>
+        </ul>
+
+        <button id="login-btn" class="login-btn">Войти</button>
+
+        <div id="user-menu" class="user-menu" style="display: none;">
+            <span id="user-display-name" class="user-name">Пользователь</span>
+            <button id="logout-btn" class="logout-btn-small">Выйти</button>
+        </div>
+    </nav>
+
+    <!-- ГЕРОЙ-БЛОК КЛАНА -->
+    <header class="clan-hero">
+        <h1>⚔️ Клан «Пепел Сити»</h1>
+        <p>Мы не просто играем — мы побеждаем вместе</p>
+        <div class="clan-meta">
+            <span>🎮 Основан: 2023</span>
+            <span>👥 Участников: <strong id="clan-members-count">0</strong></span>
+            <span>🏆 Ранг: Топ-50</span>
+        </div>
+    </header>
+
+    <!-- ВКЛАДКИ -->
+    <div class="clan-tabs">
+        <button class="clan-tab active" data-tab="members">👥 Состав</button>
+        <button class="clan-tab" data-tab="applications">📝 Заявки</button>
+        <button class="clan-tab" data-tab="rules">📜 Правила</button>
+    </div>
+
+    <!-- ================= СОСТАВ ================= -->
+    <section class="clan-section active" id="members-section">
+        <h2>Состав клана</h2>
+
+        <div class="clan-filters">
+            <input type="text" id="member-search" placeholder="🔍 Поиск по нику...">
+            <select id="member-role-filter">
+                <option value="">Все роли</option>
+                <option value="Лидер">Лидер</option>
+                <option value="Офицер">Офицер</option>
+                <option value="Ветеран">Ветеран</option>
+                <option value="Участник">Участник</option>
+                <option value="Новобранец">Новобранец</option>
+            </select>
+        </div>
+
+        <div class="members-grid" id="members-container">
+            <p style="text-align:center; grid-column: 1/-1;">Загрузка состава...</p>
+        </div>
+    </section>
+
+    <!-- ================= ЗАЯВКИ ================= -->
+    <section class="clan-section" id="applications-section">
+        <h2>Заявки на вступление</h2>
+
+        <!-- Форма подачи заявки (видна всем) -->
+        <div class="application-form-wrapper">
+            <h3>Подать заявку</h3>
+            <p class="hint">Заполните форму, и офицер свяжется с вами</p>
+
+            <form id="application-form">
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="app-nickname">Игровой ник *</label>
+                        <input type="text" id="app-nickname" placeholder="NightWolf" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-discord">Discord / Telegram</label>
+                        <input type="text" id="app-discord" placeholder="user#1234">
+                    </div>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="app-game">Игра *</label>
+                        <select id="app-game" required>
+                            <option value="">Выберите игру</option>
+                            <option value="Cyberpunk 2077">Cyberpunk 2077</option>
+                            <option value="Dota 2">Dota 2</option>
+                            <option value="PUBG: BATTLEGROUNDS">PUBG: BATTLEGROUNDS</option>
+                            <option value="Terraria">Terraria</option>
+                            <option value="Minecraft">Minecraft</option>
+                            <option value="Far Cry 6">Far Cry 6</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-rank">Ранг / Уровень</label>
+                        <input type="text" id="app-rank" placeholder="Diamond II / 150 lvl">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="app-message">О себе</label>
+                    <textarea id="app-message" rows="3" placeholder="Расскажите о вашем опыте, часах в игре, почему хотите к нам..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">📨 Отправить заявку</button>
+            </form>
+        </div>
+
+        <!-- Список заявок (виден только админу — через JS скроем) -->
+        <div id="applications-list-wrapper" style="display: none;">
+            <h3>Управление заявками</h3>
+            <div class="applications-list" id="applications-container">
+                <p>Загрузка заявок...</p>
+            </div>
+        </div>
+
+        <!-- Сообщение для обычных пользователей -->
+        <div id="applications-guest-message" class="guest-message">
+            <p>💡 Заявки отображаются только офицерам клана.</p>
+        </div>
+    </section>
+
+    <!-- ================= ПРАВИЛА ================= -->
+    <section class="clan-section" id="rules-section">
+        <h2>Правила клана «Пепел Сити»</h2>
+
+        <div class="rules-list">
+            <div class="rule-card">
+                <div class="rule-number">01</div>
+                <div class="rule-content">
+                    <h3>Уважение — превыше всего</h3>
+                    <p>Никаких оскорблений, травли и токсичности. Спорные ситуации решаются через офицеров, а не через крик в голосовом чате.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">02</div>
+                <div class="rule-content">
+                    <h3>Активность</h3>
+                    <p>Минимум <strong>3 игровых сессии в неделю</strong> или участие в клановых ивентах. Отсутствие более 14 дней без предупреждения — исключение.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">03</div>
+                <div class="rule-content">
+                    <h3>Честная игра</h3>
+                    <p>Запрещены читы, багоюз и любые сторонние программы, дающие преимущество. Нарушение — немедленный бан без права восстановления.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">04</div>
+                <div class="rule-content">
+                    <h3>Участие в ивентах</h3>
+                    <p>Клановые турниры и рейды — приоритет. Об уважительной причине отсутствия предупреждайте офицера заранее.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">05</div>
+                <div class="rule-content">
+                    <h3>Дисциплина в голосовом чате</h3>
+                    <p>Слушайте командира во время матчей. Флуд и перебивание во время командной игры — предупреждение, затем мут.</p>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">06</div>
+                <div class="rule-content">
+                    <h3>Конфиденциальность</h3>
+                    <p>Не разглашайте внутренние стратегии, состав и личные данные участников за пределы клана.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="rules-footer">
+            <p>⚠️ Незнание правил не освобождает от ответственности. Актуальная версия: <strong>01.06.2025</strong></p>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- МОДАЛЬНОЕ ОКНО АУТЕНТИФИКАЦИИ (как в index.html) -->
+    <!-- ============================================= -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-modal-window">
+            <button class="modal-close" id="modal-close">×</button>
+            <h2 class="auth-title">Добро пожаловать!</h2>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Вход</button>
+                <button class="auth-tab" data-tab="register">Регистрация</button>
+            </div>
+
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label for="login-email">Email:</label>
+                    <input type="email" id="login-email" placeholder="example@mail.ru" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль:</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="auth-btn">Войти</button>
+            </form>
+
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-name">Имя:</label>
+                    <input type="text" id="register-name" placeholder="Ваше имя" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email:</label>
+                    <input type="email" id="register-email" placeholder="example@mail.ru" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Пароль (мин. 6 символов):</label>
+                    <input type="password" id="register-password" placeholder="••••••••" minlength="6" required>
+                </div>
+                <button type="submit" class="auth-btn">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FIREBASE -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDxct9YwLCF8XXtLByNVO7z1_irAYKW-cw",
+            authDomain: "mygamesite-af743.firebaseapp.com",
+            projectId: "mygamesite-af743",
+            storageBucket: "mygamesite-af743.firebasestorage.app",
+            messagingSenderId: "24303019405",
+            appId: "1:24303019405:web:0720daae3433acb645c9c4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        window.db = db;
+        window.auth = auth;
+        window.firebaseReady = true;
+        console.log('🔥 Firebase подключен на clan.html');
+    </script>
+
+    <script src="js/script.js"></script>
+    <script src="js/clan.js"></script>
+</body>
+</html>
