@@ -1357,7 +1357,7 @@ body {
         flex-direction: column;
         width: 100%;
         padding: 15px;
-        background-color: blanchedalmond;
+        background-color: rgb(204, 27, 66);
     }
 
     .nav-list {
