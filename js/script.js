@@ -109,6 +109,8 @@ async function loadGames() {
 function renderGames(games) {
      // 1. Находим контейнер для карточек
     const container = document.getElementById('games-container');
+    // ДОБАВЛЯЕМ ПРОВЕРКУ:
+    if (!container) return; // Если мы на clan.html — просто выходим и не ломаем страницу
         // 2. Очищаем контейнер от старого содержимого
     container.innerHTML = '';
     // 3. Если игр нет — показываем сообщение
@@ -152,6 +154,8 @@ function renderGames(games) {
 
 function showError() {
     const container = document.getElementById('games-container');
+    // ДОБАВЛЯЕМ ПРОВЕРКУ:
+    if (!container) return; // Если контейнера нет — не пытаемся вставить туда текст
     container.innerHTML = `
         <p style="color: red;">
             ❌ Ошибка загрузки игр. Проверь консоль (F12).
